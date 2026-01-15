@@ -16,7 +16,7 @@ def main():
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
-    
+    score = 0
     #print(f"{dt}")
     #Groups
     updatable = pygame.sprite.Group()
@@ -51,7 +51,17 @@ def main():
             if asteroid.collide_with(player) is True:
                 log_event("player_hit")
                 print("Game Over!")
+                print(f"Your Score: {score}")
                 sys.exit()
+        for asteroid in asteroids:
+            for shot in shots:
+                if asteroid.collide_with(shot) is True:
+                    log_event("asteroid_shot")
+                    asteroid.split()
+                    shot.kill()
+                    score += 1
+        
+        
         for item in drawable:
             item.draw(screen)
         pygame.display.flip()
